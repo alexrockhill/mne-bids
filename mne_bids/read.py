@@ -6,6 +6,7 @@
 #          Stefan Appelhoff <stefan.appelhoff@mailbox.org>
 #
 # License: BSD (3-clause)
+import os
 import os.path as op
 import glob
 import json
@@ -323,3 +324,30 @@ def get_head_mri_trans(bids_fname, bids_root):
                                       tgt_pts=mri_landmarks)
     trans = mne.transforms.Transform(fro='head', to='mri', trans=trans_fitted)
     return trans
+
+
+def get_bids_raw_fnames(bids_root):
+    """Scrape a bids directory for raw files of any kind.
+
+    Parameters
+    ----------
+    bids_root : str
+        Path to root of the BIDS folder
+
+    Returns
+    -------
+    fnames : list
+        The names of any raw files in the BIDS directory.
+
+    """ 
+    fnames = list()
+    def _parse_bids_dir(this_root, fnames):
+        if op.isfile(this_root):
+            _, ext = op.splitext(op.basename(this_root))
+            if ext in ALLOWED_EXTENSIONS and (ext != '.fif' or 'raw.fif' in this_root):
+                fnames.append(this_root)
+        elif op.isdir(this_root):
+            for f in os.listdir(this_root):
+                _parse_bids_dir(op.join(this_root, f), fnames)
+    _parse_bids_dir(bids_root, fnames)
+    return fnames

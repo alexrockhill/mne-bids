@@ -125,3 +125,26 @@ def test_handle_events_reading():
 
     raw = _handle_events_reading(events_fname, raw)
     events, event_id = mne.events_from_annotations(raw)
+
+
+def test_get_bids_raw_fnames():
+    from mne_bids.read import get_bids_raw_fnames
+    fnames = get_bids_raw_fnames(data_path)
+    assert [f.split(data_path)[-1] for f in fnames] == \
+           ['/BDF/test_bdf_stim_channel.bdf', '/BDF/test_generator_2.bdf', 
+            '/EEGLAB/test_epochs_onefile.set', '/EEGLAB/test_raw_event_duration.set', 
+            '/EEGLAB/test_raw.set', '/EEGLAB/test_raw_onefile_h5.set', '/EEGLAB/test_epochs.set',
+            '/EEGLAB/test_raw_hdf5.set', '/EEGLAB/test_epochs_onefile_h5.set', 
+            '/EEGLAB/test_raw_onefile.set', '/EEGLAB/test_raw_h5.set', '/EEGLAB/test_epochs_h5.set',
+            '/EDF/test_edf_stim_resamp.edf', '/EDF/test_generator_2.edf', 
+            '/EDF/test_edf_overlapping_annotations.edf', '/EDF/test_reduced.edf', '/montage/egi_dig_raw.fif', 
+            '/misc/intervalrecording_raw.fif', '/misc/test_elekta_3ch_raw.fif', 
+            '/SSS/test_move_anon_hpisubt_raw.fif', '/SSS/TRIUX/triux_bmlhus_erm_raw.fif', 
+            '/SSS/chpi5_raw.fif', '/SSS/test_move_anon_erm_raw.fif', '/SSS/test_move_anon_raw.fif',
+            '/CTF/catch-alp-good-f.ds_raw.fif', '/CTF/testdata_ctf_pseudocontinuous.ds_raw.fif', 
+            '/CTF/testdata_ctf_short_discontinuous.ds_raw.fif', '/CTF/catch-alp-good-f.ds_randpos_raw.fif',
+            '/CTF/testdata_ctf_short.ds_raw.fif', '/CTF/somMDYO-18av.ds_raw.fif', 
+            '/CTF/catch-alp-good-f.ds_nohc_raw.fif', '/CTF/testdata_ctf.ds_raw.fif',
+            '/MEG/sample/sample_audvis_trunc_raw.fif', '/Brainvision/Analyzer_nV_Export.vhdr', 
+            '/Brainvision/test_NO.vhdr', '/KIT/test_as-raw.con']
+
