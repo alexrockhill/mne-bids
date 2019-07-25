@@ -344,7 +344,9 @@ def get_bids_raw_fnames(bids_root):
     def _parse_bids_dir(this_root, fnames):
         if op.isfile(this_root):
             _, ext = op.splitext(op.basename(this_root))
-            if ext in ALLOWED_EXTENSIONS and (ext != '.fif' or 'raw.fif' in this_root):
+            if (ext in ALLOWED_EXTENSIONS and 
+                (ext != '.fif' or any([mod in this_root for mod in 
+                                       ['meg.fif', 'eeg.fif', 'ieeg.fif']]))):
                 fnames.append(this_root)
         elif op.isdir(this_root):
             for f in os.listdir(this_root):
